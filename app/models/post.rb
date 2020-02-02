@@ -4,6 +4,17 @@ class Post < ActiveRecord::Base
   before_validation :make_title_case 
   belongs_to :author
 
+  def self.by_author(author_id)
+    self.where(:author_id => author_id)
+  end
+
+  def self.from_today
+    self.where("created_at >= ?", Time.now.beginning_of_day)
+  end 
+
+  def self.old_news
+    self.where("created_at < ?", Time.now.beginning_of_day)
+  end
   #put new code here
 
   private
